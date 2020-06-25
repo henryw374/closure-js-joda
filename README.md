@@ -3,7 +3,9 @@
 create local link to dev version of js-joda which is currently a clone of:
 
 level above this dir:
+
 `git clone git@github.com:henryw374/js-joda.git`
+
 `git checkout -b henry-master origin/henry-master` 
 
 back in this dir:
@@ -12,6 +14,6 @@ back in this dir:
 `make adv`
 
 
-## [Google Closure Compiler](https://developers.google.com/closure/compiler/)
+ [Google Closure Compiler](https://developers.google.com/closure/compiler/)
 
 
