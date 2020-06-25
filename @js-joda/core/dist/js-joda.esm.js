@@ -4236,7 +4236,7 @@ var Unit = function (_TemporalUnit) {
   };
 
   _proto6.toString = function toString() {
-    return name;
+    return this._name;
   };
 
   return Unit;
