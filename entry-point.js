@@ -1,6 +1,5 @@
 //import * as foo from "./dummy-export.js"
 
-//ok with a load of guff
 //import {ChronoField} from "./js-joda/temporal/ChronoField.js" //2k
 //import {LocalDate} from "./js-joda/LocalDate.js"
 import {Instant} from "./js-joda/Instant.js"
