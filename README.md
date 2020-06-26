@@ -25,6 +25,12 @@ file `adv.js` contains minified output
  see https://github.com/google/closure-compiler/wiki/Managing-Dependencies
  
  see https://github.com/google/closure-compiler/wiki/JS-Modules
+ 
+ to understand the output better, add compiler opts:
+ 
+ --debug \
+--formatting PRETTY_PRINT \
+ 	  
 
 
  
