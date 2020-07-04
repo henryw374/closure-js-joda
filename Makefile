@@ -1,3 +1,5 @@
+cljs:
+	clj -m cljs.main -O advanced -o cadv.js -c libstest.core 
 adv:
 	java -jar closure-compiler-v20200517.jar \
 	 --warning_level=QUIET \
