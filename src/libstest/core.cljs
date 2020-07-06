@@ -1,8 +1,5 @@
 (ns libstest.core
-  (:require [libstest.jsjoda]))
+  (:require [libstest.jsjodacompiled]))
 
-(defn f [x]
-  (.requireNonNull (.-assert libstest.jsjoda) x "foo"))
-(js/console.log (f nil))
-(js/console.log (f 1))
+(js/console.log (.now libstest.jsjodacompiled/Instant))
 

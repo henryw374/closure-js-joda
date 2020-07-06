@@ -32,6 +32,8 @@ https://www.google.com/search?q=google+closure+compiler+cyclic+dependency&oq=goo
  
  --debug \
 --formatting PRETTY_PRINT \
+
+#-O SIMPLE_OPTIMIZATIONS \
  	  
 
 
