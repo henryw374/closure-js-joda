@@ -2,7 +2,8 @@
   (:require [libstest.jsjoda])
   )
 
-(js/console.log "hello"
-  ;(.now libstest.jsjoda/Instant)
+(defn yay []
+  (.init libstest.jsjoda)
+  (.now libstest.jsjoda/Instant)
   )
 

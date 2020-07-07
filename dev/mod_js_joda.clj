@@ -97,7 +97,7 @@
     ;(clojure.java.shell/sh "make cljs")
     )
 
-  (last (js-joda-files))
+  ;(last (js-joda-files))
 
   
   )
