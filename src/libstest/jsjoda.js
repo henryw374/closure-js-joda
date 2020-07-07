@@ -6,16 +6,16 @@ const esm = goog.require('libstest.jsjodasingle')
 var inited = false;
 
 exports.init = function() {
-   if(inited === false) {
+   if(inited === true) {
       inited = true;
-         esm.YearConstantsInit();
-         esm.DurationInit();
-         esm.ChronoUnitInit();
-         esm.ChronoFieldInit();
-         esm.LocalTimeInit();
-         esm.IsoFieldsInit();
+         //esm.YearConstantsInit();
+         //esm.DurationInit();
+         //esm.ChronoUnitInit();
+         //esm.ChronoFieldInit();
+         //esm.LocalTimeInit();
+         // esm.IsoFieldsInit();
          esm.TemporalQueriesFactoryInit();
-         esm.DayOfWeekInit();
+         //esm.DayOfWeekInit();
          esm.InstantInit();
          esm.LocalDateInit();
          esm.LocalDateTimeInit();

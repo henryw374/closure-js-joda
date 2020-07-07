@@ -4,6 +4,7 @@
 
 (defn yay []
   (.init libstest.jsjoda)
-  (.now libstest.jsjoda/Instant)
+  ;(.now libstest.jsjoda/Instant)
+  (.-MONDAY libstest.jsjoda/DayOfWeek)
   )
 
