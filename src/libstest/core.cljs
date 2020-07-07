@@ -1,5 +1,7 @@
 (ns libstest.core
-  (:require [libstest.jsjodacompiled]))
+  (:require [libstest.jsjoda]))
 
-(js/console.log (.now libstest.jsjodacompiled/Instant))
+(js/console.log "hello"
+  ;(.now libstest.jsjoda/Instant)
+  )
 
