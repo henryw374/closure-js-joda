@@ -2,6 +2,8 @@
 //import * as foo from "./es6demo.js"
 //const es6demo = goog.require('jstest.es6demoexport')
 //const c = es6demo.Foo.bar()
- import {Instant} from "./jsjoda/Instant.js"
+ //import {Instant} from "./jsjoda/Instant.js"
+ import {Instant} from "./jsjodaesm.js"
  
-console.log('hello ' + Instant.now() + ' ' + new Instant() );
+ var v = 1; //Instant.now() 
+console.log('hello ' + v );
