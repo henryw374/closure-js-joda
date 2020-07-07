@@ -1,7 +1,30 @@
 goog.module('libstest.jsjoda')
 goog.module.declareLegacyNamespace()
 
-const esm = goog.require('libstest.jsjodaesm')
+const esm = goog.require('libstest.jsjodasingle')
+
+    esm.YearConstantsInit();
+    esm.DurationInit();
+    esm.ChronoUnitInit();
+    esm.ChronoFieldInit();
+    esm.LocalTimeInit();
+    esm.IsoFieldsInit();
+    esm.TemporalQueriesFactoryInit();
+    esm.DayOfWeekInit();
+    esm.InstantInit();
+    esm.LocalDateInit();
+    esm.LocalDateTimeInit();
+    esm.YearInit();
+    esm.MonthInit();
+    esm.YearMonthInit();
+    esm.MonthDayInit();
+    esm.PeriodInit();
+    esm.ZoneOffsetInit();
+    esm.ZonedDateTimeInit();
+    esm.ZoneIdFactoryInit();
+    esm.IsoChronologyInit();
+    esm.DateTimeFormatterInit();
+    esm.DateTimeFormatterBuilderInit();
 
 exports.ArithmeticException = esm.ArithmeticException;
 exports.ChronoField = esm.ChronoField;

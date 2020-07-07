@@ -1,3 +1,8 @@
+rename init fns. are init fns DCE friendly? try with an example. yes
+prove that es6-cljs can do DCE elim at all - in other repo. yes
+concat all js-joda into one file? removing requires. renaming init-fns
+
+
 # Look at compiling js-joda with the [Google Closure Compiler](https://developers.google.com/closure/compiler/)
 
 the steps below demo compiling so most of js-joda is eliminiated in the build output.

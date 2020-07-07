@@ -52,13 +52,52 @@
     ;(println "name ")
     ))
 
+(defn megaize [f]
+  (let [file-name (subs (.getName f) 0 (- (count (.getName f)) 3))
+        contents (line-seq (io/reader f))]
+    (->> contents 
+         (keep (fn [line]
+                 (when-not (re-matches #"^import.*" line) line)))
+         (map (fn [line]
+                (if (re-matches #"export function _init().*" line)
+                  (str "export function " file-name "Init() {")
+                  (-> line  
+                      (string/replace "PARSER" (str file-name "PARSER"))
+                      (string/replace "MAX_WIDTH" (str file-name "MAX_WIDTH"))
+                      ))
+                ))
+         ))
+  )
+
 (comment
 
-  (doseq [f (->> (js-joda-files)
-                 ;(take 3)
-                 )]
-    (when-not (.isDirectory f)
-      (copy-file f)))
+  (do
+    (let [mega
+          (->>
+            (keep (fn [f]
+                    (when-not (or (.isDirectory f)
+                                (string/starts-with? (.getName f) "js-joda")
+                                (string/starts-with? (.getName f) "_init"))
+                      ;(copy-file f)
+                      (megaize f)
+                      ))
+              (->> (->>
+                     (line-seq (io/reader "jsjoda/js-joda.js"))
+                     (keep #(second (re-matches #".*'\.\/([^']*)'.*" %)))
+                     (map (fn [f] (io/file (str "./jsjoda/" f ".js")))))
+                   ;(take 3)
+                   ))
+            (apply concat))]
+      (spit "src/libstest/jsjodasingle.js"
+        (apply str
+          "goog.declareModuleId('libstest.jsjodasingle');\n"
+          (interpose "\n" mega))
+        )
+      )
+    ;(clojure.java.shell/sh "make cljs")
+    )
 
   (last (js-joda-files))
+
+  
   )

@@ -1,5 +1,5 @@
 cljs:
-	clj -m cljs.main -co '{:optimizations :advanced :pretty-print false :pseudo-names false  }' -o cadv.js -c libstest.core 
+	clj -m cljs.main -co '{:optimizations :advanced :pretty-print true :pseudo-names true  }' -o cadv.js -c libstest.core 
 adv:
 	java -jar closure-compiler-v20200517.jar \
 	 --warning_level=QUIET \
