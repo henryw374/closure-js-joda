@@ -2,4 +2,5 @@
   (:require [libstest.core]))
 
 
-(js/console.log "yay?" (libstest.core/yay))
+(js/console.log "yay?" ;(libstest.core/yay)
+  )

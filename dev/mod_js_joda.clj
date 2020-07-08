@@ -1,6 +1,7 @@
 (ns mod-js-joda
   (:require [clojure.java.io :as io]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [cljs.build.api :as cba]))
 
 (defn js-joda-files []
   (file-seq (io/file "jsjoda")))
@@ -69,8 +70,7 @@
          ))
   )
 
-(comment
-
+(defn run-mod []
   (do
     (let [mega
           (->>
@@ -95,7 +95,31 @@
         )
       )
     ;(clojure.java.shell/sh "make cljs")
-    )
+    ))
+
+(defn build-cljs []
+  (cba/build
+    {
+     :optimizations :advanced
+     ;:pseudo-names true
+     ;:pretty-print true 
+     :pretty-print false 
+     :pseudo-names false 
+     :compiler-stats true
+     :main 'libstest.core2
+     :process-shim false
+     :output-to "cadv.js"}))
+
+(defn -main [& _]
+  (run-mod)
+  (build-cljs)
+  (clojure.java.shell/sh "ls" "-lh" "cadv.js")
+  )
+
+(comment
+  (-main)
+
+  
 
   ;(last (js-joda-files))
 

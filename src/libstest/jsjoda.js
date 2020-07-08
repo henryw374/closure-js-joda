@@ -6,17 +6,17 @@ const esm = goog.require('libstest.jsjodasingle')
 var inited = false;
 
 exports.init = function() {
-   if(inited === true) {
+   if(inited === false) {
       inited = true;
-         //esm.YearConstantsInit();
-         //esm.DurationInit();
-         //esm.ChronoUnitInit();
-         //esm.ChronoFieldInit();
-         //esm.LocalTimeInit();
-         // esm.IsoFieldsInit();
+         esm.YearConstantsInit();
+         esm.DurationInit();
+         esm.ChronoUnitInit();
+         esm.ChronoFieldInit();
+         esm.LocalTimeInit();
+          esm.IsoFieldsInit();
          esm.TemporalQueriesFactoryInit();
-         //esm.DayOfWeekInit();
-         esm.InstantInit();
+         esm.DayOfWeekInit();
+         esm.InstantInit(); // lazyness
          esm.LocalDateInit();
          esm.LocalDateTimeInit();
          esm.YearInit();
@@ -87,10 +87,3 @@ exports._ = esm._;
 exports.convert = esm.convert;
 exports.nativeJs = esm.nativeJs;
 exports.use = esm.use;
-//const instant = goog.require('jsjoda.Instant')
-//const errors = goog.require('jsjoda.errors')
-//const assert = goog.require('jsjoda.assert')
-
-//exports.Instant = instant.Instant;
-//exports.assert = assert;
-//exports.errors = errors;
