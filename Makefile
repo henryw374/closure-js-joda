@@ -27,4 +27,13 @@ singlejs:
 	  --js ./jsjodaesm.js \
 	  --js "entry-point.js" \
 	  --entry_point="./entry-point.js" \
-	  --js_output_file adv.js	  		
+	  --js_output_file adv.js
+jodaforcljs:
+	java -jar closure-compiler-v20200517.jar \
+	  -O SIMPLE \
+      --formatting PRETTY_PRINT \
+      --generate_exports \
+      --language_out ECMASCRIPT5 \
+	  --js ./src/libstest/jsjodasingle.js \
+	  --entry_point ./src/libstest/jsjodasingle.js \
+	  --js_output_file ./src/libstest/jsjoda4cljs.js	  	  		

@@ -72,8 +72,22 @@
      :process-shim false
      :output-to "cadv.js"}))
 
+(defn ->provide []
+  (clojure.java.shell/sh "make" "jodaforcljs")
+  (let [contents (line-seq (io/reader "src/libstest/jsjoda4cljs.js"))]
+    (spit "src/raw/jsjoda.js"
+      (apply str
+        "goog.provide('raw.jsjoda');\n"
+        (->>
+          contents
+          (map #(string/replace % "$$module$src$libstest$jsjodasingle" ""))
+          (map #(string/replace % "var module$src$libstest$jsjodasingle = {};" ""))
+          (map #(string/replace % "module$src$libstest$jsjodasingle" "raw.jsjoda"))
+          (interpose "\n"))))))
+
 (defn -main [& _]
   (run-mod)
+  (->provide)
   (build-cljs false)
   (clojure.java.shell/sh "ls" "-lh" "cadv.js")
   )

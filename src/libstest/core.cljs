@@ -1,9 +1,9 @@
 (ns libstest.core
-  (:require [libstest.jsjoda]))
+  (:require [raw.jsjoda]))
 
 (defn yay []
   
-   (.now libstest.jsjoda/Instant)
+   (.now raw.jsjoda/Instant)
   ;(.-MONDAY libstest.jsjoda/DayOfWeek)
   )
 
