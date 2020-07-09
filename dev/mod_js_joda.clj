@@ -12,47 +12,6 @@
                path)]
     (string/join "." (string/split path #"/"))))
 
-(defn replace-deps-with-goog-get [imports line]
-  (reduce 
-    (fn [r [import package]]
-      (string/replace r import (str "(goog.module.get('" package "')." import ")")))
-    line
-    imports))
-
-(defn copy-file [f]
-  (println f)
-  (let [path (.getPath f)
-        path-parts (butlast (string/split path #"/"))
-        package-name (->package-name path)
-        contents (line-seq (io/reader f))
-        new-file (io/file (str "src/" path))
-        all-consts (atom {})]
-    (io/make-parents new-file)
-    (spit (.getPath new-file)
-      (apply str
-        "goog.declareModuleId('" package-name "');\n"
-        (map 
-          (fn [line]
-            (if-let [m (re-find #"import \{(.*)\} from '([.\/]+)/(.*)';" line)]
-                (let [[_ consts rel imp] m
-                      consts-coll (->> (string/split consts #",")
-                                      (map string/trim))
-                      package-prefix (case rel
-                                       "." (str (string/join "/" path-parts) "/")
-                                       ".." (str (string/join "/" (butlast path-parts)) "/")
-                                       "../.." (str (string/join (butlast (butlast path-parts))) "/"))
-                      import-package-name (->package-name (str package-prefix imp))]
-                   (swap! all-consts #(apply conj % (map
-                                                       (fn [c] [c import-package-name])
-                                                       consts-coll)))
-                  (str "goog.forwardDeclare('" import-package-name "');\n"
-                    ;"const { " consts " } = goog.module.get('" (->package-name (str package-prefix imp))  "') ;\n"
-                    ))
-                (str (replace-deps-with-goog-get @all-consts line) "\n")))
-          contents)))
-    ;(println "name ")
-    ))
-
 (defn megaize [f]
   (let [file-name (subs (.getName f) 0 (- (count (.getName f)) 3))
         contents (line-seq (io/reader f))]
@@ -63,8 +22,11 @@
                 (if (re-matches #"export function _init().*" line)
                   (str "export function " file-name "Init() {")
                   (-> line  
+                      ;; 2 can go if getters works
                       (string/replace "PARSER" (str file-name "PARSER"))
                       (string/replace "MAX_WIDTH" (str file-name "MAX_WIDTH"))
+                      (string/replace "@license" (str file-name "license"))
+                      
                       ))
                 ))
          ))
@@ -97,14 +59,14 @@
     ;(clojure.java.shell/sh "make cljs")
     ))
 
-(defn build-cljs []
+(defn build-cljs [readable?]
   (cba/build
     {
      :optimizations :advanced
      ;:pseudo-names true
      ;:pretty-print true 
-     :pretty-print false 
-     :pseudo-names false 
+     :pretty-print readable? 
+     :pseudo-names readable?
      :compiler-stats true
      :main 'libstest.core2
      :process-shim false
@@ -112,16 +74,16 @@
 
 (defn -main [& _]
   (run-mod)
-  (build-cljs)
+  (build-cljs false)
   (clojure.java.shell/sh "ls" "-lh" "cadv.js")
   )
 
 (comment
-  (-main)
 
-  
+  (capt
+    '(-main))
+
+
 
   ;(last (js-joda-files))
-
-  
   )

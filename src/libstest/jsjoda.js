@@ -3,36 +3,6 @@ goog.module.declareLegacyNamespace()
 
 const esm = goog.require('libstest.jsjodasingle')
 
-var inited = false;
-
-exports.init = function() {
-   if(inited === false) {
-      inited = true;
-         esm.YearConstantsInit();
-         esm.DurationInit();
-         esm.ChronoUnitInit();
-         esm.ChronoFieldInit();
-         esm.LocalTimeInit();
-          esm.IsoFieldsInit();
-         esm.TemporalQueriesFactoryInit();
-         esm.DayOfWeekInit();
-         esm.InstantInit(); // lazyness
-         esm.LocalDateInit();
-         esm.LocalDateTimeInit();
-         esm.YearInit();
-         esm.MonthInit();
-         esm.YearMonthInit();
-         esm.MonthDayInit();
-         esm.PeriodInit();
-         esm.ZoneOffsetInit();
-         esm.ZonedDateTimeInit();
-         esm.ZoneIdFactoryInit();
-         esm.IsoChronologyInit();
-         esm.DateTimeFormatterInit();
-         esm.DateTimeFormatterBuilderInit();
-   }
-    }
-
 exports.ArithmeticException = esm.ArithmeticException;
 exports.ChronoField = esm.ChronoField;
 exports.ChronoLocalDate = esm.ChronoLocalDate;
