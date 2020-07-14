@@ -34,6 +34,6 @@ jodaforcljs:
       --formatting PRETTY_PRINT \
       --generate_exports \
       --language_out ECMASCRIPT5 \
-	  --js ./src/libstest/jsjodasingle.js \
-	  --entry_point ./src/libstest/jsjodasingle.js \
-	  --js_output_file ./src/libstest/jsjoda4cljs.js	  	  		
+	  --js ./src/raw/jsjodamodule.js \
+	  --entry_point ./src/raw/jsjodamodule.js \
+	  --js_output_file ./src/raw/jsjodamoduleout.js	  	  		

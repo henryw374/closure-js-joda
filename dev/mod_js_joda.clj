@@ -1,70 +1,39 @@
 (ns mod-js-joda
   (:require [clojure.java.io :as io]
             [clojure.string :as string]
+            [files-to-include]
             [cljs.build.api :as cba]))
 
-(defn js-joda-files []
-  (file-seq (io/file "jsjoda")))
-
-(defn ->package-name [path]
-  (let [path (if (string/ends-with? path ".js")
-               (subs path 0 (- (count path) (count ".js")))
-               path)]
-    (string/join "." (string/split path #"/"))))
-
-(defn megaize [f]
-  (let [file-name (subs (.getName f) 0 (- (count (.getName f)) 3))
+(defn file->munged-lines [f]
+  (let [file-name (subs (.getName f) 0 (- (count (.getName f)) (count ".js")))
         contents (line-seq (io/reader f))]
     (->> contents 
          (keep (fn [line]
                  (when-not (re-matches #"^import.*" line) line)))
          (map (fn [line]
-                (if (re-matches #"export function _init().*" line)
-                  (str "export function " file-name "Init() {")
-                  (-> line  
-                      ;; 2 can go if getters works
-                      (string/replace "PARSER" (str file-name "PARSER"))
-                      (string/replace "MAX_WIDTH" (str file-name "MAX_WIDTH"))
-                      (string/replace "@license" (str file-name "license"))
-                      
-                      ))
-                ))
-         ))
-  )
+                (-> line
+                  (string/replace "@license" "license")
+                  (string/replace "MAX_WIDTH" (str file-name "MAX_WIDTH"))
+                  (string/replace "PARSER" (str file-name "PARSER"))
+                  ))))))
 
-(defn run-mod []
-  (do
-    (let [mega
-          (->>
-            (keep (fn [f]
-                    (when-not (or (.isDirectory f)
-                                (string/starts-with? (.getName f) "js-joda")
-                                (string/starts-with? (.getName f) "_init"))
-                      ;(copy-file f)
-                      (megaize f)
-                      ))
-              (->> (->>
-                     (line-seq (io/reader "jsjoda/js-joda.js"))
-                     (keep #(second (re-matches #".*'\.\/([^']*)'.*" %)))
-                     (map (fn [f] (io/file (str "./jsjoda/" f ".js")))))
-                   ;(take 3)
-                   ))
-            (apply concat))]
-      (spit "src/libstest/jsjodasingle.js"
-        (apply str
-          "goog.declareModuleId('libstest.jsjodasingle');\n"
-          (interpose "\n" mega))
-        )
-      )
-    ;(clojure.java.shell/sh "make cljs")
-    ))
+(defn build-single-file-es6-goog-module []
+  (let [lines-raw
+        (->>
+          files-to-include/ordered
+          (map (fn [f]
+                 (io/file (str "./jsjoda/" f))))
+          (keep (fn [f]
+                  (file->munged-lines f)))
+          (apply concat))]
+    (spit "src/raw/jsjodamodule.js"
+      (apply str
+        "goog.declareModuleId('raw.jsjodamodule');\n"
+        (interpose "\n" lines-raw)))))
 
 (defn build-cljs [readable?]
   (cba/build
-    {
-     :optimizations :advanced
-     ;:pseudo-names true
-     ;:pretty-print true 
+    {:optimizations :advanced
      :pretty-print readable? 
      :pseudo-names readable?
      :compiler-stats true
@@ -72,22 +41,22 @@
      :process-shim false
      :output-to "cadv.js"}))
 
-(defn ->provide []
+(defn es6-module->cljs-compiler-friendly []
   (clojure.java.shell/sh "make" "jodaforcljs")
-  (let [contents (line-seq (io/reader "src/libstest/jsjoda4cljs.js"))]
+  (let [contents (line-seq (io/reader "src/raw/jsjodamoduleout.js"))]
     (spit "src/raw/jsjoda.js"
       (apply str
         "goog.provide('raw.jsjoda');\n"
         (->>
           contents
-          (map #(string/replace % "$$module$src$libstest$jsjodasingle" ""))
-          (map #(string/replace % "var module$src$libstest$jsjodasingle = {};" ""))
-          (map #(string/replace % "module$src$libstest$jsjodasingle" "raw.jsjoda"))
+          (map #(string/replace % "$$module$src$raw$jsjodamodule" ""))
+          (map #(string/replace % "var module$src$raw$jsjodamodule = {};" ""))
+          (map #(string/replace % "module$src$raw$jsjodamodule" "raw.jsjoda"))
           (interpose "\n"))))))
 
 (defn -main [& _]
-  (run-mod)
-  (->provide)
+  (build-single-file-es6-goog-module)
+  (es6-module->cljs-compiler-friendly)
   (build-cljs false)
   (clojure.java.shell/sh "ls" "-lh" "cadv.js")
   )
@@ -97,6 +66,7 @@
   (capt
     '(-main))
 
+  (-main)
 
 
   ;(last (js-joda-files))
