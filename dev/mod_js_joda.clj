@@ -12,7 +12,11 @@
                  (when-not (re-matches #"^import.*" line) line)))
          (map (fn [line]
                 (-> line
+                  (string/replace "/**" "/*")
                   (string/replace "@license" "license")
+                  (string/replace "@implSpec" "implSpec")
+                  (string/replace "@param" "param")
+                  (string/replace "@abstract" "abstract")
                   (string/replace "MAX_WIDTH" (str file-name "MAX_WIDTH"))
                   (string/replace "PARSER" (str file-name "PARSER"))
                   ))))))
@@ -55,6 +59,9 @@
           (interpose "\n"))))))
 
 (defn -main [& _]
+  (clojure.java.shell/sh "rm" "-rf" "src/raw/")
+  (clojure.java.shell/sh "rm"  "cadv.js")
+  (clojure.java.shell/sh "mkdir" "src/raw")
   (build-single-file-es6-goog-module)
   (es6-module->cljs-compiler-friendly)
   (build-cljs false)
