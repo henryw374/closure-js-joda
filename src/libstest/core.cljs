@@ -1,9 +1,16 @@
 (ns libstest.core
-  (:require [raw.jsjoda]))
+  (:require [raw.jsjoda]
+            [addons.timezone.js-joda-timezone]
+            [cljs.java-time.addons]))
+
+(defn add-tz! []
+  (addons.timezone.js-joda-timezone/f cljs.java-time.addons/tz-props))
+
 
 (defn yay []
-  
-   (.now raw.jsjoda/Instant)
+  (add-tz!)
+  (.of raw.jsjoda/ZoneId "Europe/Berlin")
+  ;(.now raw.jsjoda/Instant)
   ;(.-MONDAY libstest.jsjoda/DayOfWeek)
   )
 

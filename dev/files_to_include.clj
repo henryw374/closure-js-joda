@@ -1,6 +1,16 @@
 (ns files-to-include)
 
-(def ordered
+(def tz-files
+  ["unpack.js"
+   "MomentZoneRulesProvider.js"
+   "MomentZoneRules.js"
+   "tzdbData.js" ; imports packed json
+   "js-joda-timezone.js"
+   "system-default-zone.js"
+   "plug.js"
+   ])
+
+(def core-files
   ["errors.js"
    "Enum.js"
    "temporal/TemporalAccessor.js"

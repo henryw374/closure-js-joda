@@ -1,0 +1,12 @@
+^{:auto-testing        true
+  :open-url            false
+  :watch-dirs          ["src"]
+  ;:css-dirs ["resources/public/css"]
+  :ring-server-options {:port 9502}
+  ;:extra-main-files {:cards {:main finance-modeling2.view.devcards}}
+  }
+{:main libstest.core2
+ ;:devcards true
+ :output-to "resources/public/cljs-out/main.js"
+ :load-warninged-code true
+ :repl-verbose true}

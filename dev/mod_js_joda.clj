@@ -65,19 +65,27 @@
                   (string/replace "PARSER" (str file-name "PARSER"))
                   ))))))
 
-(defn build-single-file-es6-goog-module []
+(defn concat-files [to-include src-dir out-file]
   (let [lines-raw
         (->>
-          files-to-include/ordered
+          to-include
           (map (fn [f]
-                 (io/file (str "./js-joda/packages/core/src/" f))))
+                 (io/file (str src-dir f))))
           (keep (fn [f]
                   (file->munged-lines f)))
           (apply concat))]
-    (spit "src/raw/jsjodamodule.js"
+    (spit out-file
       (apply str
         ;"goog.declareModuleId('raw.jsjodamodule');\n"
         (interpose "\n" lines-raw)))))
+
+(defn build-single-file-es6-goog-module []
+  (concat-files files-to-include/core-files
+    "./js-joda/packages/core/src/"
+    "src/raw/jsjodamodule.js"
+    ))
+
+;(build-tz-concated)
 
 (defn build-cljs [readable?]
   (cba/build
