@@ -7,8 +7,10 @@
   (cljs/build
     {
      :optimizations :advanced
-     ;:pseudo-names true
-     :main 'finance-modeling2.view.app-prod
+     :pseudo-names true
+     :main 'libstest.core2
+     :pretty-print true
+     :infer-externs true
      :process-shim false
      :output-to "resources/public/cljs-out/main.js"}))
 
@@ -37,4 +39,5 @@
   (stop)
   (start-figwheel)
   (repl)
+  
   )

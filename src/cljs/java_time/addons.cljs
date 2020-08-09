@@ -1,7 +1,7 @@
 (ns cljs.java-time.addons
   (:require [raw.jsjoda]))
 
-(def locale-fn
+(def load-locale-addon
   (memoize
     (fn [f]
       (let [in #js{"DateTimeFormatterBuilder" raw.jsjoda/DateTimeFormatterBuilder
@@ -23,14 +23,18 @@
         ;(set! raw.jsjoda/DateTimeFormatter (goog.object/get in "DateTimeFormatter"))
         ))))
 
-(defn tz-fn [f]
-  (let [in #js{"ZoneId"            raw.jsjoda/ZoneId
-               "ZoneRules"         raw.jsjoda/ZoneRules
-               "ZoneRulesProvider" raw.jsjoda/ZoneRulesProvider}
-        use (fn [f] (f in))]
-    (goog.object/set in "use" use)
-    (f in)
-    (set! raw.jsjoda/ZoneId (goog.object/get in "ZoneId"))
-    (set! raw.jsjoda/ZoneRules (goog.object/get in "ZoneRules"))
-    (set! raw.jsjoda/ZoneRulesProvider (goog.object/get in "ZoneRulesProvider"))))
+(def load-timezone-addon
+  (memoize
+    (fn [f]
+      (let [in #js{"ZoneId"            raw.jsjoda/ZoneId
+                   "ZoneRules"         raw.jsjoda/ZoneRules
+                   "ZoneOffset"        raw.jsjoda/ZoneOffset
+                   "ZoneRulesProvider" raw.jsjoda/ZoneRulesProvider}
+            use (fn [f] (f in))]
+        (goog.object/set in "use" use)
+        (f in)
+        (set! raw.jsjoda/ZoneId (goog.object/get in "ZoneId"))
+        (set! raw.jsjoda/ZoneRules (goog.object/get in "ZoneRules"))
+        (set! raw.jsjoda/ZoneOffset (goog.object/get in "ZoneOffset"))
+        (set! raw.jsjoda/ZoneRulesProvider (goog.object/get in "ZoneRulesProvider"))))))
 
