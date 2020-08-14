@@ -1,13 +1,21 @@
 (ns files-to-include)
 
+(def locale
+  ;"plug.js" - do my own versino of that that refers to individual properties?
+  "Locale.js" ; needs getters
+  "temporal/WeekFields.js" ; needs getters to remove init
+  ;"init.js - nope
+  ; local would also need cldr stuff
+  )
+
 (def tz-files
   ["unpack.js"
    "MomentZoneRulesProvider.js"
    "MomentZoneRules.js"
-   "tzdbData.js" ; imports packed json
    "js-joda-timezone.js"
    "system-default-zone.js"
-   "plug.js"
+   ;"plug.js" - do my own versino of that
+   ;macros that read json file and return contents
    ])
 
 (def core-files

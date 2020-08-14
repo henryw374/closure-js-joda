@@ -1,3 +1,15 @@
+todo - make addons work in advanced mode. 
+
+basically need to do the same single-file munge as with the core.
+
+locale also needs cldr stuff. which i haven't looked at
+
+---------- 
+ goog.require(classes from core)
+ locale code content
+------------
+
+
 rename init fns. are init fns DCE friendly? try with an example. yes
 prove that es6-cljs can do DCE elim at all - in other repo. yes
 concat all js-joda into one file? removing requires. renaming init-fns
